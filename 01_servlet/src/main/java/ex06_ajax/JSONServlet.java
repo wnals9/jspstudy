@@ -47,7 +47,7 @@ public class JSONServlet extends HttpServlet {
 	  // 4. 응답 데이터 타입과 인코딩
 	  response.setContentType("applicaton/json; charset=UTF-8");
 	  
-	  // 5. 응탑 스트림 생성
+	  // 5. 응답 스트림 생성
 	  PrintWriter out = response.getWriter();
 	  
 	  // 6. 응답
