@@ -12,6 +12,10 @@
     padding-top: 50px;
     border-bottom: 1px solid gray;
   }
+  .gnb .logo {
+    text-align: center;
+    padding: 10px 0;
+  }
   .gnb ul {
     list-style-type: none;
     display: flex;
