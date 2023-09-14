@@ -9,13 +9,14 @@
   request.setCharacterEncoding("UTF-8");
   Optional<String> opt = Optional.ofNullable(request.getParameter("title"));
   String title = opt.orElse("환영합니다");
+  String contextPath = request.getContextPath();
 %>
 <title><%=title%></title>
-<script src="/jsp/resource/js/lib/jquery-3.7.1.min.js"></script>
-<script src="/jsp/resource/js/header.js?dt=<%=System.currentTimeMillis()%>"></script>
-<link rel="stylesheet" href="/jsp/resource/css/header.css?dt=<%=System.currentTimeMillis()%>">
-<link rel="stylesheet" href="/jsp/resource/css/main.css?dt=<%=System.currentTimeMillis()%>">
-<link rel="stylesheet" href="/jsp/resource/css/footer.css?dt=<%=System.currentTimeMillis()%>">
+<script src="<%=contextPath%>/resource/js/lib/jquery-3.7.1.min.js"></script>
+<script src="<%=contextPath%>/resource/js/header.js?dt=<%=System.currentTimeMillis()%>"></script>
+<link rel="stylesheet" href="<%=contextPath%>/resource/css/header.css?dt=<%=System.currentTimeMillis()%>">
+<link rel="stylesheet" href="<%=contextPath%>/resource/css/main.css?dt=<%=System.currentTimeMillis()%>">
+<link rel="stylesheet" href="<%=contextPath%>/resource/css/footer.css?dt=<%=System.currentTimeMillis()%>">
 </head>
 <body>
 
