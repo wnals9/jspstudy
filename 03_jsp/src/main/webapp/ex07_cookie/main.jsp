@@ -1,23 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script>
-  // <body> 태그를 모두 읽은 뒤 function(){}을 실행한다.
-  $(function(){
-    $('#btn_logout').click(function(){
-      location.href = '${contextPath}/logout';
-    })
-  })
-</script>
 </head>
 <body>
+
+  <%
+    String remember_me = "";  // 쿠키 remember_me가 없으면 빈 문자열("")을 사용하기 위해서 초기화를 진행함
+    Cookie[] cookies = request.getCookies();
+    if(cookies != null){
+      for(int i = 0; i < cookies.length; i++){
+        if(cookies[i].getName().equals("remember_me")){
+          remember_me = cookies[i].getValue();
+          break;
+        }
+      }
+    }
+    pageContext.setAttribute("remember_me", remember_me);
+  %>
 
   <div>
     <form method="post" action="${contextPath}/rememberMe">
@@ -38,9 +44,12 @@
       </div>
     </form>
   </div>
-
-  <div>${sessionScope.id}님 환영합니다.</div>
-  <div><button type="button" id="btn_logout">로그아웃</button></div>
+  <script>
+    if('${remember_me}' !== ''){
+      $('#id').val('${remember_me}');
+      $('#remember_me').prop('checked', true);
+    }
+  </script>
 
 </body>
 </html>
