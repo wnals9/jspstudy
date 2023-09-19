@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.ActionForward;
+import vo.UserVo;
 
 public class MvcServiceImpl implements MvcService {
 
@@ -35,6 +36,24 @@ public class MvcServiceImpl implements MvcService {
     out.flush();
     out.close();
 }
+  @Override
+  public ActionForward getInfo(HttpServletRequest request) {
+    
+    String name = request.getParameter("name");
+    int age = Integer.parseInt(request.getParameter("age"));
+    String gender = request.getParameter("gender");
+    String[] hobbies = request.getParameterValues("hobbies");
+    
+    UserVo vo = new UserVo();
+    vo.setName(name);
+    vo.setAge(age);
+    vo.setGender(gender);
+    vo.setHobbies(hobbies);
+    
+    request.setAttribute("vo", vo);
+    
+    return new ActionForward("views/info.jsp", false);
+  }
 }
  
 
