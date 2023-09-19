@@ -1,8 +1,11 @@
 package service;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import common.ActionForward;
 
@@ -19,5 +22,20 @@ public class MvcServiceImpl implements MvcService {
     
     return new ActionForward("views/age.jsp", false);
   }
-
+  @Override
+  public void getAbs(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  
+    int n = Integer.parseInt(request.getParameter("n"));
+    
+    PrintWriter out = response.getWriter();
+    out.println("<script>");
+    out.println("alert('" + (n >= 0 ? n : -n) + "')");
+    out.println("location.href = '" + request.getContextPath() + "'");
+    out.println("</script>");
+    out.flush();
+    out.close();
 }
+}
+ 
+
+  
