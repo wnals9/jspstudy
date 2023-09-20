@@ -17,7 +17,7 @@ public class BoardServiceImpl implements BoardService {
   // 모든 서비스가 공동으로 사용하는 BoardDao, PageVo 객체 가져오기
   private BoardDao dao = BoardDao.getDao();
   private PageVo pageVo = new PageVo();
-  
+
   @Override
   public ActionForward register(HttpServletRequest request) {
     
@@ -30,7 +30,7 @@ public class BoardServiceImpl implements BoardService {
                       .title(title)
                       .content(content)
                       .build();
-
+    
     // BoardDao의 register 메소드 호출
     int registerResult = dao.register(dto);
     
@@ -39,14 +39,14 @@ public class BoardServiceImpl implements BoardService {
     if(registerResult == 1) {
       path = request.getContextPath() + "/board/list.do";
     } else if(registerResult == 0) {
-      path = "";
+      path = request.getContextPath() + "/index.do";
     }
     
     // 어디로 어떻게 이동하는지 반환 (insert 수행 후에는 반드시 redirect 이동한다.)
     return new ActionForward(path, true);
     
   }
- 
+
   @Override
   public ActionForward getBoardList(HttpServletRequest request) {
     
@@ -56,7 +56,7 @@ public class BoardServiceImpl implements BoardService {
     Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
     int page = Integer.parseInt(opt.orElse("1"));
     
-    int total = dao.getBoardCount();    // dao 필요함
+    int total = dao.getBoardCount();
     
     int display = 5;  // 고정 값 사용(원하면 파라미터로 받아 오는 것으로 변경도 가능함)
     
@@ -71,9 +71,95 @@ public class BoardServiceImpl implements BoardService {
     // DB로부터 게시글 목록 가져오기
     List<BoardDto> boardList = dao.getBoardList(map);
     
-    // 게시글 목록과 paging을 /board/list.jsp로 전달하기 위하여 request에 저장한 뒤 forward 한다.
+    // 게시글 목록과 paging을 /board/list.jsp로 전달하기 위하여 request에 저장한 뒤 forward한다.
     request.setAttribute("boardList", boardList);
     request.setAttribute("paging", pageVo.getPaging(request.getContextPath() + "/board/list.do"));
     return new ActionForward("/board/list.jsp", false);
+    
   }
+  
+  @Override
+  public ActionForward getBoardByNo(HttpServletRequest request) {
+    
+    // 상세조회할 게시글 번호
+    Optional<String> opt = Optional.ofNullable(request.getParameter("board_no"));
+    int board_no = Integer.parseInt(opt.orElse("0"));
+    
+    // DB로부터 게시글 가져오기
+    BoardDto board = dao.getBoardByNo(board_no);
+    
+    // 게시글을 /board/detail.jsp에 전달하기 위해서 forward 처리
+    request.setAttribute("board", board);
+    return new ActionForward("/board/detail.jsp", false);
+    
+  }
+  
+  @Override
+  public ActionForward edit(HttpServletRequest request) {
+    
+    // 편집할 게시글 번호
+    Optional<String> opt = Optional.ofNullable(request.getParameter("board_no"));
+    int board_no = Integer.parseInt(opt.orElse("0"));
+    
+    // DB로부터 게시글 가져오기
+    BoardDto board = dao.getBoardByNo(board_no);
+    
+    // 게시글을 /board/edit.jsp에 전달하기 위해서 forward 처리
+    request.setAttribute("board", board);
+    return new ActionForward("/board/edit.jsp", false);
+    
+  }
+  
+  @Override
+  public ActionForward modify(HttpServletRequest request) {
+    
+    // 수정할 게시글 정보
+    String title = request.getParameter("title");
+    String content = request.getParameter("content");
+    int board_no = Integer.parseInt(request.getParameter("board_no"));
+    
+    // 수정할 게시글 정보를 BoardDto 객체로 생성
+    BoardDto dto = BoardDto.builder()
+                    .title(title)
+                    .content(content)
+                    .board_no(board_no)
+                    .build();
+    
+    // 수정하기
+    int modifyResult = dao.modify(dto);
+    
+    //수정 성공(modifyResult == 1), 수정 실패(modifyResult == 0)
+    String path = null;
+    if(modifyResult == 1) {
+      path = request.getContextPath() + "/board/detail.do?board_no=" + board_no;
+    } else {
+      path = request.getContextPath() + "/index.do";
+    }
+    
+    // update 이후에는 redirect 한다.
+    return new ActionForward(path, true);
+  }
+  
+  @Override
+  public ActionForward delete(HttpServletRequest request) {
+    
+    // 삭제할 게시글 번호
+    Optional<String> opt = Optional.ofNullable(request.getParameter("board_no"));
+    int board_no = Integer.parseInt(opt.orElse("0"));
+    
+    // 삭제하기
+    int deleteResult = dao.delete(board_no);
+    
+    // 삭제 성공(deleteResult == 1), 삭제 실패(deleteResult == 0)
+    String path = null;
+    if(deleteResult == 1) {
+      path = request.getContextPath() + "/board/list.do";
+    } else if(deleteResult == 0) {
+      path = request.getContextPath() + "/index.do";
+    }
+    
+    // delete 이후에는 redirect 한다.
+    return new ActionForward(path, true);
+  }
+  
 }

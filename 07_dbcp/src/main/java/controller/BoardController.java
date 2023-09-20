@@ -33,7 +33,7 @@ public class BoardController extends HttpServlet {
 
     // BoardFilter 실행 후 Controller 실행
     
-    // 요청 인코딩(BoardFilter가 수행) + 응답 타입과 인코딩
+    // 요청 인코딩(BoardFilter가 수행함) + 응답 타입과 인코딩
     // request.setCharacterEncoding("UTF-8");
     response.setContentType("text/html; charset=UTF-8");
     
@@ -54,12 +54,27 @@ public class BoardController extends HttpServlet {
     case "/board/write.do":
       af = new ActionForward("/board/write.jsp", false);
       break;
+    case "/index.do":
+      af = new ActionForward("/index.jsp", false);
+      break;  
     // 서비스 처리
     case "/board/register.do":
       af = boardService.register(request);
       break;
     case "/board/list.do":
       af = boardService.getBoardList(request);
+      break;
+    case "/board/detail.do":
+      af = boardService.getBoardByNo(request);
+      break;
+    case "/board/edit.do":
+      af = boardService.edit(request);
+      break;
+    case "/board/modify.do":
+      af = boardService.modify(request);
+      break;
+    case "/board/delete.do":
+      af = boardService.delete(request);
       break;
     }
     

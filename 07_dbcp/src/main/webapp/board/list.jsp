@@ -13,19 +13,32 @@
     margin-right: 20px;
   }
 </style>
+<script>
+
+  $(function(){
+    fnDetail();
+  })
+
+  function fnDetail(){
+    $('.board').click(function(){
+      location.href = '${contextPath}/board/detail.do?board_no=' + $(this).find('.board_no').text();
+    })
+  }
+
+</script>
 </head>
 <body>
 
   <div>
     <a href="${contextPath}/board/write.do">작성하러가기</a>
   </div>
-  
+
   <hr>
   
   <div>
     <c:forEach items="${boardList}" var="board">
       <div class="board">
-        <span>${board.board_no}</span>
+        <span class="board_no">${board.board_no}</span>
         <span>${board.title}</span>
         <span>${board.created_at}</span>
       </div>
@@ -33,6 +46,6 @@
   </div>
   
   <div>${paging}</div>
-  
+
 </body>
 </html>
