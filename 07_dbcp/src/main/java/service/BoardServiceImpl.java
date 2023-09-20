@@ -1,15 +1,19 @@
 package service;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 
 import common.ActionForward;
 import domain.BoardDto;
 import repository.BoardDao;
+import util.PageVo;
 
 public class BoardServiceImpl implements BoardService {
 
-  // 모든 서비스가 공동으로 사용하는 BoardDao 객체 가져오기
+  // 모든 서비스가 공동으로 사용하는 BoardDao, PageVo 객체 가져오기
   private BoardDao dao = BoardDao.getDao();
+  private PageVo pageVo = new PageVo();
   
   @Override
   public ActionForward register(HttpServletRequest request) {
@@ -39,5 +43,25 @@ public class BoardServiceImpl implements BoardService {
     return new ActionForward(path, true);
     
   }
-
+ 
+  @Override
+  public ActionForward getBoardList(HttpServletRequest request) {
+    
+    /* page, total, display 정보가 있어야 목록을 가져올 수 있다. */
+    
+    // 전달된 페이지 번호 (페이지 번호의 전달이 없으면 1 페이지를 연다.)
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    
+    int total = 120;    // dao 필요함
+    
+    int display = 5;  // 고정 값 사용(원하면 파라미터로 받아 오는 것으로 변경도 가능함)
+    
+    // PageVo의 모든 정보 계산하기
+    pageVo.setPaging(page, total, display);
+    
+    System.out.println(pageVo);
+    
+    return null;
+  }
 }
