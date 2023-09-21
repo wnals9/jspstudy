@@ -35,7 +35,7 @@ public class ArticleServiceImpl implements ArticleService {
     
     // BoardDao의 register 메소드 호출
     int registerResult = dao.register(dto);
-    
+    System.out.println(request.getContextPath());
     // 등록 성공(registerResult == 1), 등록 실패(registerResult == 0)
     String path = null;
     if(registerResult == 1) {
