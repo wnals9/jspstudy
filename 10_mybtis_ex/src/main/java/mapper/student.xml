@@ -5,6 +5,15 @@
 
 <mapper namespace="mapper.student">
   
-  <select id="studentList" parameterType="Map" resultType="domain.studentDto"></select>
+  <select id="studentList" parameterType="Map" resultType="domain.studentDto">
+    SELECT STUDENT_NO, NAME, KOREAN, ENGLISH, MATH, AVERAGE
+      FROM MEMBER_T
+     ORDER BY MEMBER_NO DESC
+  </select>
+  
+    <select id="studentCount" resultType="int">
+    SELECT COUNT(*)
+      FROM STUDENT_T
+  </select>
 
 </mapper>

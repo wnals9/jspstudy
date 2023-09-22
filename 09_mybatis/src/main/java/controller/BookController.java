@@ -59,7 +59,7 @@ public class BookController extends HttpServlet {
       break;
     // 서비스 처리
     case "/book/add.do":
-      af = bookService.bookAdd(request);
+      af = BookService.bookAdd(request);
       break;
     case "/book/list.do":
       af = bookService.bookList(request);
