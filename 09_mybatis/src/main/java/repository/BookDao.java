@@ -12,10 +12,10 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import domain.BookDto;
 
 public class BookDao {
-  
-  // mybatis의 sqlSession을 만들 수 있는 SqlSessionFactory 선언
-  private SqlSessionFactory factory;
 
+  // mybatis의 SqlSession을 만들 수 있는 SqlSessionFactory 선언
+  private SqlSessionFactory factory;
+  
   // Singleton Pattern
   private static BookDao dao = new BookDao();
   private BookDao() {
@@ -38,16 +38,16 @@ public class BookDao {
   // 전체 개수 반환 메소드
   public int bookCount() {
     SqlSession ss = factory.openSession();
-    int count = ss.selectOne(NS +"bookCount");
+    int count = ss.selectOne(NS + "bookCount");
     ss.close();
     return count;
   }
   
   // 목록 반환 메소드
-  public List<BookDto> bookList(Map<String, Object> map){
+  public List<BookDto> bookList(Map<String, Object> map) {
     SqlSession ss = factory.openSession();
     List<BookDto> list = ss.selectList(NS + "bookList", map);
-    list.clear();
+    ss.close();
     return list;
   }
   
@@ -59,9 +59,9 @@ public class BookDao {
     return dto;
   }
   
-  // 등록 메소드
+  // 등록 메소드 
   public int bookAdd(BookDto dto) {
-    SqlSession ss = factory.openSession(false);  // 내가 커밋하겠다.
+    SqlSession ss = factory.openSession(false);  // false : 내가 커밋하겠다.
     int addResult = ss.insert(NS + "bookAdd", dto);
     if(addResult == 1) {
       ss.commit();
@@ -85,11 +85,12 @@ public class BookDao {
   // 삭제 메소드
   public int bookDelete(int bookNo) {
     SqlSession ss = factory.openSession(false);
-    int deleteResult = ss.delete(NS + "bookDelete", ss);
+    int deleteResult = ss.delete(NS + "bookDelete", bookNo);
     if(deleteResult == 1) {
       ss.commit();
     }
     ss.close();
     return deleteResult;
   }
+  
 }

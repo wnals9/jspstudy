@@ -2,12 +2,12 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+
 <mapper namespace="mybatis.mapper.book">
 
-  <select id="bookCount" resultType="int" >
+  <select id="bookCount" resultType="int">
     SELECT COUNT(*)
-      FROM BOOK_T  
+      FROM BOOK_T
   </select>
 
   <select id="bookList" parameterType="Map" resultType="domain.BookDto">
@@ -20,23 +20,23 @@
   <select id="bookDetail" parameterType="int" resultType="domain.BookDto">
     SELECT BOOK_NO, TITLE, AUTHOR, PRICE, PUBDATE
       FROM BOOK_T
-     WHERE BOOK_NO = ${bookNo}
+     WHERE BOOK_NO = #{bookNo}
   </select>
   
   <insert id="bookAdd" parameterType="domain.BookDto">
-    INSERT INTO BOOT_T (
-      BOOK_NO
-    , TITLE
-    , AUTHOR
-    , PRICE
-    , PUBDATE
-   ) VALUES (
-       BOOK_SEQ.NEXTVAL
-     , #{title}
-     , #{author}
-     , #{price}
-     , SYSDATE
-   )
+    INSERT INTO BOOK_T (
+        BOOK_NO
+      , TITLE
+      , AUTHOR
+      , PRICE
+      , PUBDATE
+    ) VALUES (
+        BOOK_SEQ.NEXTVAL
+      , #{title}
+      , #{author}
+      , #{price}
+      , SYSDATE
+    )
   </insert>
   
   <update id="bookModify" parameterType="domain.BookDto">
@@ -52,5 +52,5 @@
       FROM BOOK_T
      WHERE BOOK_NO = #{bookNo}
   </delete>
-
+  
 </mapper>

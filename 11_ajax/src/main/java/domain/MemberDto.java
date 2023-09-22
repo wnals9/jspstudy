@@ -1,7 +1,5 @@
 package domain;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,10 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Builder
-public class BookDto {
-  private int bookNo;
-  private String title;
-  private String author;
-  private int price;
-  private Date pubdate;
+public class MemberDto {
+  private int memberNo;
+  private String email;
+  private String name;
+  private String gender;
+  private String address;
 }

@@ -127,7 +127,7 @@ public class ArticleDao {
       
       con = dataSource.getConnection();
       String sql = "SELECT A.ARTICLE_NO, A.TITLE, A.CONTENT, A.EDITOR, A.HIT, A.LASTMODIFIED, A.CREATED"
-                 + "  FROM (SELECT ROW_NUMBER() OVER (ORDER BY BOARD_NO DESC) AS RN, BOARD_NO, TITLE, CONTENT, EDITOR, HIT, LASTMODIFIED, CREATED"
+                 + "  FROM (SELECT ROW_NUMBER() OVER (ORDER BY ARTICLE_NO DESC) AS RN, ARTICLE_NO, TITLE, CONTENT, EDITOR, HIT, LASTMODIFIED, CREATED"
                  + "          FROM ARTICLE_T) A"
                  + " WHERE A.RN BETWEEN ? AND ?";
       ps = con.prepareStatement(sql);
