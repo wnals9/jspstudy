@@ -32,7 +32,7 @@ public class StudentDao {
   
   private final String NS = "mapper.student.";
   
-  // 전체 개수 반환 메소드
+  // 전체 개수 반환 메소드u
   public int studentCount() {
     SqlSession ss = factory.openSession();
     int count = ss.selectOne(NS + "studentCount");

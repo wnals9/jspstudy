@@ -1,6 +1,8 @@
 package service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,7 +17,10 @@ public class StudentServiceImpl implements StudentService {
   @Override
   public ActionForward studentList(HttpServletRequest request) {
     
-    List<StudentDto> studentList = dao.studentList(null)
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("begin", request.getParameter("begin"))
+    
+    List<StudentDto> studentList = dao.studentList();
     
     return null;
   }

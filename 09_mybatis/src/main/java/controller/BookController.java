@@ -48,6 +48,8 @@ public class BookController extends HttpServlet {
     // 어디로 어떻게 이동할 것인지 알고 있는 ActionForward 객체
     ActionForward af = null;
     
+    BookService bookService = new BookServiceImpl();
+    
     // 요청에 따른 처리
     switch(urlMapping) {
     // 단순 이동 (forward 처리)
@@ -59,7 +61,7 @@ public class BookController extends HttpServlet {
       break;
     // 서비스 처리
     case "/book/add.do":
-      af = BookService.bookAdd(request);
+      af = bookService.bookAdd(request);
       break;
     case "/book/list.do":
       af = bookService.bookList(request);

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.ActionForward;
 import service.StudentService;
+import service.StudentServiceImpl;
 
 /**
  * Servlet implementation class controller
@@ -40,9 +41,11 @@ public class StudentController extends HttpServlet {
     
 	  ActionForward af = null;
 	  
+	  StudentService studentService = new StudentServiceImpl();
+	  
 	  switch(urlMapping) {
 	  case "/student/list.do":
-	    af = StudentService.studentList(request);
+	    af = studentService.studentList(request);
 	    break;
 	  }
 	  
